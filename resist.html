@@ -16,6 +16,22 @@
         max-width: 60em;
         margin: 2em;
       }
+      section > h1 {
+        margin-top: 2em;
+      }
+      h1 > em {
+        font-style: normal;
+      }
+      h2 {
+        background: #fecf00;
+        padding: 0.5em;
+      }
+      h3 {
+        color: gray;
+      }
+      section {
+        margin-left: 2em;
+      }
       em {
         color: brown;
       }
@@ -26,6 +42,9 @@
       }
       li {
         margin-top: 1em;
+      }
+      code {
+        color: #228822;
       }
     </style>
 
@@ -38,6 +57,15 @@
       <h2>A guideline for modular Ruby code</h2>
       <h3>Version 1.0.0; Last updated Feb. 1st, 2012</h3>
     </hgroup>
+
+    <section>
+      <h1>Why?</h1>
+      <p>
+        The number of libraries the average (Ruby) application depends on is
+        ever increasing. The more libraries need to work toghether, the more it
+        is important they play by certain rules.
+      </p>
+    </section>
 
     <section>
       <h1>Definitions</h1>
@@ -66,15 +94,6 @@
           related method.
         </dd>
       </dl>
-    </section>
-
-    <section>
-      <h1>Why?</h1>
-      <p>
-        The number of libraries the average (Ruby) application depends on is
-        ever increasing. The more libraries need to work toghether, the more it
-        is important they play by certain rules.
-      </p>
     </section>
 
     <section>
