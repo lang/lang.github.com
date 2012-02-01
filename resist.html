@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <title>ReSiSt, a guideline for modular Ruby code.</title>
+
+    <meta charset="utf-8"/>
+
+    <style>
+      body {
+        color: black;
+        background-color: #fafafa;
+        font-family: sans-serif;
+        max-width: 60em;
+        margin: 2em;
+      }
+      em {
+        color: brown;
+      }
+      dt {
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+        text-decoration: underline;
+      }
+      li {
+        margin-top: 1em;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <hgroup>
+      <h1>ReSiSt - <em>Re</em>liable, <em>Si</em>mple, <em>St</em>able</h1>
+      <h2>A guideline for modular Ruby code</h2>
+      <h3>Version 1.0.0; Last updated Feb. 1st, 2012</h3>
+    </hgroup>
+
+    <section>
+      <h1>Definitions</h1>
+      <dl>
+        <dt>Library</dt>
+        <dd>
+          A reusable unit of code with an API.
+        </dd>
+        <dt><em>Elementary</em> library</dt>
+        <dd>
+          An elementary library implements a well-known specification
+          (e.g. XML-parsing, HTTP, Unicode), de-facto standard (e.g. PDF) or
+          basic functionality that is needed by practically every application
+          of a certain domain (e.g. message resolution in internationalized
+          applications).
+        </dd>
+        <dt>Magic</dt>
+        <dd>
+          In the context of Ruby, this adjective is usually used to describe
+          code that uses monkey patching, metaprogramming or intentionally
+          (ab)uses corner cases of Ruby's syntax or semantics.
+        </dd>
+        <dt>Library file</dt>
+        <dd>
+          A file that is intended to be loaded by <code>require</code> or a
+          related method.
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h1>Why?</h1>
+      <p>
+        The number of libraries the average (Ruby) application depends on is
+        ever increasing. The more libraries need to work toghether, the more it
+        is important they play by certain rules.
+      </p>
+    </section>
+
+    <section>
+      <h1>Guideline for <em>elementary</em> libraries</h1>
+      <section>
+        <h1>Reliable</h1>
+        <ol start="1">
+          <li>
+            <em>No monkey patching</em>, especially not of classes or modules
+            not part of the library, like Ruby core classes. Monkey patching
+            has a high potential to cause unintended side effects. It has
+            <em>no</em> place under any circumstances in an elementary library.
+          </li>
+          <li>
+            <em>Only lower-case filenames</em> for library files. This avoids
+            errors when a library that was developed on a case-insensitve file
+            system is used on a case-sensitive file system.
+          </li>
+          <li>
+            <em>Keep the core-logic free of platform or environment dependent
+              behaviour or default values</em> where possible. Instead make the
+            behaviour configurable by parameters or attributes.
+          </li>
+          <li>
+            <em>Keep backwards-compatibility</em> of future releases in mind
+            when designing the API.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h1>Simple</h1>
+        <ol start="5">
+          <li>
+            <em>A clearly defined, as small as possible scope.</em> It should
+            be possible to tell it in a single sentence. E.g. <q>FooBar is a
+              streaming XML parser library.</q> (and of course doesn't include
+            code for SOAP or XHTML or ...).
+          </li>
+          <li>
+            <em>A plain Object-Oriented/Functional API.</em>
+          </li>
+          <li>
+            <em>Use dependency injection.</em> Don't worry, you don't need a
+            framework for that. It just means that an object gets its
+            dependencies via constructor parameters, method parameters or
+            attributes instead of actively constructing them or retrieving them
+            itself.
+          </li>
+          <li>
+            <em>No magic.</em> A higher-level <q>magic</q> layer can be put
+            into a separate gem that depends on the elementary library.
+          </li>
+          <li>
+            <em>One toplevel module</em> that serves as a root namespace for
+            all definitions of the library.
+          </li>
+          <li>
+            <em>A direct mapping of module to gem name.</em> Module
+            <code>Foo</code> maps to gem name <code>foo</code>, module
+            <code>FooBar</code> maps to gem name <code>foo_bar</code> and
+            module <code>Foo::Bar</code> maps to gem name <code>foo-bar</code>.
+          </li>
+          <li>
+            <em>All library files are under a directory with the toplevel
+              moduls name</em>, or a subdirectory thereof, except maybe a
+            single file which must have the toplevel modules name plus the
+            obligatory <code>.rb</code> (or <code>.so</code>, ...) extension.
+          </li>
+          <li>
+            <em>No executable</em> (script) in a library gem. Put executable(s)
+            in a separate gem.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h1>Stable</h1>
+        <ol start="13">
+          <li>
+            <em>Use <a href="http://semver.org">Semantic Versioning</a></em>.
+          </li>
+          <li>
+            <em>Do a 1.0.0 release</em> as soon as possible and keep all
+            releases with the same major version number strictly <em>backwards
+              compatible</em>, as required by semantic versioning.
+          </li>
+          <li>
+            <em>Document the supported API.</em> Examples are good, but not
+            enough.
+          </li>
+          <li>
+            <em>Computational complexity</em> guarantees should be part of the
+            API where it makes sense.
+          </li>
+        </ol>
+      </section>
+    </section>
+
+  </body>
+
+</html>
